@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lalibela Heritage Culinary Academy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0A0A0A;
+    --panel:#141414;
+    --panel-2:#1B1B1B;
+    --gold:#C9A84C;
+    --gold-light:#E8C97A;
+    --text:#F5F5F0;
+    --muted:#8A8A85;
+    --line:#2A2A26;
+    --nav-h:76px;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  html,body{
+    height:100%;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    overflow:hidden;
+  }
+
+  /* ---------- Ambient text glow ---------- */
+  @keyframes textGlow{
+    0%,100%{ text-shadow:0 0 8px rgba(232,201,122,.55), 0 0 20px rgba(232,201,122,.32), 0 0 36px rgba(232,201,122,.16); }
+    50%{ text-shadow:0 0 14px rgba(232,201,122,.85), 0 0 32px rgba(232,201,122,.5), 0 0 54px rgba(232,201,122,.28); }
+  }
+  body, h1,h2,h3,h4,h5,h6,p,span,a,li,div,button,em{
+    animation:textGlow 4.5s ease-in-out infinite;
+  }
+  h1,h2,h3{ animation-duration:3.6s; }
+  img,svg,.hero,.about-img,.course-media,.dish-img-wrap,.gallery-grid .g-item{ animation:none; }
+
+  ::selection{background:var(--gold);color:#0A0A0A;}
+
+  a{color:inherit;text-decoration:none;}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+
+  /* ---------- Diamond divider signature ---------- */
+  .divider{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin:0 0 28px 0;
+  }
+  .divider .bar{height:1px;width:36px;background:var(--gold);opacity:.6;}
+  .divider .diamond{
+    width:7px;height:7px;
+    background:var(--gold);
+    transform:rotate(45deg);
+  }
+  .divider.center{justify-content:center;}
+
+  .eyebrow{
+    font-size:12px;
+    letter-spacing:.32em;
+    text-transform:uppercase;
+    color:var(--gold);
+    font-weight:600;
+  }
+
+  /* ---------- NAV ---------- */
+  .nav{
+    position:fixed;
+    top:0;left:0;right:0;
+    height:var(--nav-h);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 48px;
+    background:rgba(10,10,10,.86);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line);
+    z-index:1000;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-weight:700;
+    font-size:17px;
+    letter-spacing:.04em;
+    cursor:pointer;
+  }
+  .brand img{height:36px;width:36px;object-fit:contain;border-radius:50%;}
+  .brand .brand-text{display:flex;flex-direction:column;line-height:1.15;}
+  .brand .brand-text .b1{font-size:15px;font-weight:700;letter-spacing:.05em;}
+  .brand .brand-text .b2{font-size:9.5px;letter-spacing:.28em;color:var(--gold);text-transform:uppercase;font-weight:600;}
+
+  .nav-links{
+    display:flex;
+    gap:38px;
+    list-style:none;
+  }
+  .nav-links li button{
+    font-size:13px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    font-weight:500;
+    color:var(--muted);
+    padding:8px 0;
+    position:relative;
+    transition:color .25s ease;
+  }
+  .nav-links li button::after{
+    content:"";
+    position:absolute;
+    left:0;bottom:0;
+    width:0%;
+    height:1px;
+    background:var(--gold);
+    transition:width .3s ease;
+  }
+  .nav-links li button:hover{color:var(--text);}
+  .nav-links li button.active{color:var(--gold-light);}
+  .nav-links li button.active::after{width:100%;}
+
+  .hamburger{
+    display:none;
+    flex-direction:column;
+    gap:5px;
+    width:26px;
+    z-index:1100;
+  }
+  .hamburger span{
+    height:1.5px;
+    width:100%;
+    background:var(--text);
+    transition:all .3s ease;
+  }
+  .hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+  .hamburger.open span:nth-child(2){opacity:0;}
+  .hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+
+  .mobile-menu{
+    position:fixed;
+    top:0;right:0;
+    height:100vh;
+    width:280px;
+    background:var(--panel);
+    border-left:1px solid var(--line);
+    z-index:1050;
+    transform:translateX(100%);
+    transition:transform .35s ease;
+    display:flex;
+    flex-direction:column;
+    padding:110px 36px 36px;
+    gap:8px;
+  }
+  .mobile-menu.open{transform:translateX(0);}
+  .mobile-menu button{
+    text-align:left;
+    padding:14px 0;
+    font-size:14px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--muted);
+    border-bottom:1px solid var(--line);
+  }
+  .mobile-menu button.active{color:var(--gold-light);}
+
+  .overlay{
+    position:fixed;inset:0;
+    background:rgba(0,0,0,.6);
+    z-index:1040;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .3s ease;
+  }
+  .overlay.open{opacity:1;pointer-events:auto;}
+
+  /* ---------- SCREENS ---------- */
+  .screen-wrap{
+    position:fixed;
+    top:var(--nav-h);
+    left:0;right:0;bottom:0;
+    overflow-y:auto;
+  }
+
+  .screen{
+    display:none;
+    min-height:100%;
+    width:100%;
+    opacity:0;
+    animation:fadeIn .5s ease forwards;
+  }
+  .screen.active{display:block;}
+  @keyframes fadeIn{
+    from{opacity:0;transform:translateY(8px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+
+  .container{
+    max-width:1160px;
+    margin:0 auto;
+    padding:0 48px;
+  }
+
+  /* ---------- HOME ---------- */
+  .hero{
+    position:relative;
+    min-height:calc(100vh - var(--nav-h));
+    display:flex;
+    align-items:center;
+    background:
+      linear-gradient(180deg, rgba(10,10,10,.55) 0%, rgba(10,10,10,.78) 55%, #0A0A0A 100%),
+      url('images/chef-portrait.png') center 18% / cover no-repeat;
+  }
+  .hero-inner{
+    max-width:680px;
+    padding:0 48px;
+  }
+  .hero h1{
+    font-size:56px;
+    font-weight:800;
+    line-height:1.06;
+    letter-spacing:-.01em;
+    margin-bottom:22px;
+  }
+  .hero h1 em{
+    font-style:normal;
+    color:var(--gold-light);
+  }
+  .hero p{
+    font-size:16px;
+    line-height:1.7;
+    color:var(--muted);
+    max-width:480px;
+    margin-bottom:38px;
+    font-weight:300;
+  }
+  @keyframes btnGlow{
+    0%,100%{ box-shadow:0 0 10px rgba(232,201,122,.45), 0 0 24px rgba(232,201,122,.22); }
+    50%{ box-shadow:0 0 20px rgba(232,201,122,.85), 0 0 44px rgba(232,201,122,.45); }
+  }
+  .btn-gold{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    background:var(--gold);
+    color:#0A0A0A;
+    font-weight:700;
+    font-size:13px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    padding:16px 34px;
+    border-radius:2px;
+    text-shadow:none;
+    transition:background .25s ease, transform .25s ease, box-shadow .25s ease;
+    animation:btnGlow 2.6s ease-in-out infinite;
+  }
+  .btn-gold:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 0 28px rgba(232,201,122,1), 0 0 56px rgba(232,201,122,.6);}
+  .btn-gold span.arrow{font-size:15px;transition:transform .25s ease;}
+  .btn-gold:hover span.arrow{transform:translateX(4px);}
+
+  .hero-stats{
+    display:flex;
+    gap:48px;
+    margin-top:64px;
+    padding-top:32px;
+    border-top:1px solid rgba(201,168,76,.25);
+    max-width:480px;
+  }
+  .hero-stats .stat .num{font-size:26px;font-weight:700;color:var(--gold-light);}
+  .hero-stats .stat .lbl{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:4px;}
+
+  /* ---------- Generic section heading ---------- */
+  .section-head{
+    padding:96px 0 0;
+  }
+  .section-head h2{
+    font-size:40px;
+    font-weight:700;
+    letter-spacing:-.01em;
+    margin-bottom:18px;
+  }
+  .section-head p.lead{
+    color:var(--muted);
+    font-size:15px;
+    line-height:1.8;
+    max-width:640px;
+    font-weight:300;
+  }
+
+  /* ---------- ABOUT ---------- */
+  .about-body{
+    padding:48px 0 100px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:64px;
+    align-items:center;
+  }
+  .about-img{
+    position:relative;
+    aspect-ratio:4/5;
+    border:1px solid var(--line);
+    overflow:hidden;
+  }
+  .about-img img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(15%);}
+  .about-img .frame-tag{
+    position:absolute;
+    bottom:0;left:0;right:0;
+    padding:18px 22px;
+    background:linear-gradient(0deg, rgba(10,10,10,.92), transparent);
+    font-size:11px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--gold-light);
+  }
+  .about-text p{
+    color:var(--muted);
+    font-size:15px;
+    line-height:1.9;
+    font-weight:300;
+    margin-bottom:20px;
+  }
+  .about-pillars{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:24px;
+    margin-top:36px;
+  }
+  .pillar{
+    border:1px solid var(--line);
+    padding:22px 20px;
+    background:var(--panel);
+  }
+  .pillar .pillar-num{font-size:11px;color:var(--gold);letter-spacing:.1em;margin-bottom:10px;}
+  .pillar h4{font-size:15px;font-weight:600;margin-bottom:8px;}
+  .pillar p{font-size:13px;color:var(--muted);line-height:1.6;margin:0;}
+
+  /* ---------- COURSES ---------- */
+  .courses-body{padding:48px 0 100px;}
+  .course-card{
+    border:1px solid var(--line);
+    background:var(--panel);
+    display:grid;
+    grid-template-columns:1.1fr 1.4fr;
+    overflow:hidden;
+    transition:border-color .3s ease;
+  }
+  .course-card:hover{border-color:var(--gold);}
+  .course-media{
+    position:relative;
+    min-height:380px;
+    background:url('images/chef-mountain.png') center 30% / cover no-repeat;
+  }
+  .course-media::after{
+    content:"";
+    position:absolute;inset:0;
+    background:linear-gradient(180deg, rgba(10,10,10,.1), rgba(10,10,10,.75));
+  }
+  .course-badge{
+    position:absolute;top:24px;left:24px;
+    background:var(--gold);
+    color:#0A0A0A;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    padding:7px 14px;
+    z-index:2;
+  }
+  .course-content{padding:44px 44px;}
+  .course-content .course-eyebrow{
+    font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;font-weight:600;
+  }
+  .course-content h3{font-size:28px;font-weight:700;margin-bottom:16px;}
+  .course-content p.desc{color:var(--muted);font-size:14.5px;line-height:1.85;font-weight:300;margin-bottom:28px;}
+  .course-meta{
+    display:flex;
+    gap:36px;
+    margin-bottom:30px;
+    flex-wrap:wrap;
+  }
+  .course-meta .meta-item .meta-lbl{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+  .course-meta .meta-item .meta-val{font-size:15px;font-weight:600;color:var(--text);}
+  .course-list{list-style:none;margin-bottom:32px;}
+  .course-list li{
+    font-size:14px;
+    color:var(--muted);
+    padding:9px 0;
+    border-bottom:1px solid var(--line);
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .course-list li:last-child{border-bottom:none;}
+  .course-list li .dot{width:5px;height:5px;background:var(--gold);transform:rotate(45deg);flex-shrink:0;}
+
+  /* ---------- CURRICULUM MODULES ---------- */
+  .curriculum{padding:20px 0 100px;}
+  .curriculum-head{margin-bottom:8px;}
+  .curriculum-head h3{font-size:20px;font-weight:700;margin-bottom:6px;}
+  .curriculum-head p{font-size:13.5px;color:var(--muted);max-width:640px;line-height:1.7;font-weight:300;}
+  .curriculum-group{margin-top:44px;}
+  .curriculum-group-title{
+    display:flex;align-items:center;gap:12px;
+    font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--gold);font-weight:600;margin-bottom:20px;
+  }
+  .curriculum-group-title::after{content:"";flex:1;height:1px;background:var(--line);}
+  .module-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+  }
+  .module-card{
+    border:1px solid var(--line);
+    background:var(--panel);
+    padding:22px 24px 24px;
+    transition:border-color .25s ease, transform .25s ease;
+    display:flex;
+    flex-direction:column;
+  }
+  .module-card:hover{border-color:var(--gold);transform:translateY(-2px);}
+  .module-card .m-name{font-size:15px;font-weight:600;color:var(--text);margin-bottom:8px;line-height:1.4;}
+  .module-card .m-hours{font-size:11.5px;color:var(--gold);letter-spacing:.06em;text-transform:uppercase;font-weight:600;margin-bottom:12px;}
+  .module-card .m-desc{font-size:13px;color:var(--muted);line-height:1.7;font-weight:300;margin-bottom:20px;flex:1;}
+  .module-enroll{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-size:11.5px;
+    font-weight:700;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--gold-light);
+    border:1px solid var(--gold);
+    padding:10px 16px;
+    align-self:flex-start;
+    transition:background .25s ease, color .25s ease, box-shadow .25s ease;
+    animation:btnGlow 2.6s ease-in-out infinite;
+  }
+  .module-enroll:hover{background:var(--gold);color:#0A0A0A;box-shadow:0 0 28px rgba(232,201,122,1), 0 0 56px rgba(232,201,122,.6);}
+  .module-enroll .arrow{transition:transform .25s ease;}
+  .module-enroll:hover .arrow{transform:translateX(3px);}
+  @media (max-width:980px){.module-grid{grid-template-columns:repeat(2,1fr);}}
+  @media (max-width:600px){.module-grid{grid-template-columns:1fr;}}
+
+  /* ---------- SIGNATURE DISHES ---------- */
+  .dishes-body{padding:48px 0 100px;}
+  .dish-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:28px;
+  }
+  .dish-card{
+    border:1px solid var(--line);
+    background:var(--panel);
+  }
+  .dish-img-wrap{
+    overflow:hidden;
+    aspect-ratio:4/5;
+  }
+  .dish-img-wrap img{
+    width:100%;height:100%;
+    object-fit:cover;
+    display:block;
+    transition:transform .5s ease;
+  }
+  .dish-card:hover .dish-img-wrap img{transform:scale(1.06);}
+  .dish-info{padding:22px 22px 26px;}
+  .dish-info .dish-eyebrow{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+  .dish-info h4{font-size:18px;font-weight:600;margin-bottom:8px;}
+  .dish-info p{font-size:13px;color:var(--muted);line-height:1.65;font-weight:300;}
+
+  /* ---------- GALLERY ---------- */
+  .gallery-body{padding:48px 0 100px;}
+  .gallery-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    grid-auto-rows:230px;
+    gap:18px;
+  }
+  .gallery-grid .g-item{
+    overflow:hidden;
+    border:1px solid var(--line);
+  }
+  .gallery-grid .g-item img{
+    width:100%;height:100%;
+    object-fit:cover;
+    display:block;
+    transition:transform .5s ease, filter .4s ease;
+    filter:grayscale(25%);
+  }
+  .gallery-grid .g-item:hover img{transform:scale(1.05);filter:grayscale(0%);}
+  .gallery-grid .g-tall{grid-row:span 2;}
+
+  /* ---------- CHEF FREELANCING ---------- */
+  .freelance-body{padding:48px 0 100px;}
+  .freelance-card{
+    border:1px solid var(--line);
+    background:var(--panel);
+    display:grid;
+    grid-template-columns:1.1fr 1.4fr;
+    overflow:hidden;
+  }
+  .freelance-media{
+    position:relative;
+    min-height:420px;
+    background:url('images/chef-portrait.png') center 20% / cover no-repeat;
+  }
+  .freelance-media::after{
+    content:"";
+    position:absolute;inset:0;
+    background:linear-gradient(180deg, rgba(10,10,10,.15), rgba(10,10,10,.8));
+  }
+  .freelance-badge{
+    position:absolute;top:24px;left:24px;
+    background:var(--gold);
+    color:#0A0A0A;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    padding:7px 14px;
+    z-index:2;
+  }
+  .freelance-content{padding:48px 46px;}
+  .freelance-content .fr-eyebrow{
+    font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;font-weight:600;
+  }
+  .freelance-content h3{font-size:28px;font-weight:700;margin-bottom:18px;}
+  .freelance-content p.desc{color:var(--muted);font-size:14.5px;line-height:1.9;font-weight:300;margin-bottom:26px;}
+  .freelance-list{list-style:none;margin-bottom:34px;}
+  .freelance-list li{
+    font-size:14px;
+    color:var(--muted);
+    padding:10px 0;
+    border-bottom:1px solid var(--line);
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .freelance-list li:last-child{border-bottom:none;}
+  .freelance-list li .dot{width:5px;height:5px;background:var(--gold);transform:rotate(45deg);flex-shrink:0;}
+  @media (max-width:980px){.freelance-card{grid-template-columns:1fr;}.freelance-media{min-height:240px;}}
+  @media (max-width:600px){.freelance-content{padding:30px 26px;}}
+
+  /* ---------- CONTACT ---------- */
+  .contact-body{
+    padding:48px 0 100px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:64px;
+  }
+  .contact-card{
+    border:1px solid var(--line);
+    background:var(--panel);
+    padding:40px;
+    display:flex;
+    flex-direction:column;
+    gap:30px;
+  }
+  .contact-item{display:flex;gap:18px;align-items:flex-start;}
+  .contact-icon{
+    width:42px;height:42px;
+    border:1px solid var(--gold);
+    flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--gold);
+    font-size:16px;
+  }
+  .contact-item .c-label{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+  .contact-item .c-value{font-size:16px;font-weight:500;}
+  .contact-map{
+    border:1px solid var(--line);
+    background:var(--panel-2);
+    min-height:340px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    gap:18px;
+    padding:40px;
+    text-align:center;
+  }
+  .contact-map .map-icon{
+    width:64px;height:64px;
+    border:1px solid var(--gold);
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--gold-light);
+    font-size:24px;
+  }
+  .contact-map h4{font-size:18px;font-weight:600;}
+  .contact-map p{font-size:13.5px;color:var(--muted);max-width:280px;line-height:1.7;}
+
+  footer{
+    border-top:1px solid var(--line);
+    padding:28px 0;
+    text-align:center;
+  }
+  footer p{font-size:11.5px;letter-spacing:.06em;color:var(--muted);}
+  footer p .gold-dot{color:var(--gold);}
+
+  /* ---------- Scrollbar ---------- */
+  .screen-wrap::-webkit-scrollbar{width:8px;}
+  .screen-wrap::-webkit-scrollbar-track{background:var(--bg);}
+  .screen-wrap::-webkit-scrollbar-thumb{background:#3a3a35;}
+
+  :focus-visible{outline:1.5px solid var(--gold);outline-offset:3px;}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:980px){
+    .nav-links{display:none;}
+    .hamburger{display:flex;}
+    .about-body,.contact-body{grid-template-columns:1fr;}
+    .course-card{grid-template-columns:1fr;}
+    .course-media{min-height:240px;}
+    .dish-grid{grid-template-columns:repeat(2,1fr);}
+    .gallery-grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:200px;}
+    .hero h1{font-size:42px;}
+  }
+  @media (max-width:600px){
+    .nav{padding:0 20px;}
+    .container{padding:0 22px;}
+    .hero-inner{padding:0 22px;}
+    .hero h1{font-size:34px;}
+    .hero-stats{gap:28px;flex-wrap:wrap;}
+    .section-head{padding:72px 0 0;}
+    .section-head h2{font-size:28px;}
+    .dish-grid{grid-template-columns:1fr;}
+    .gallery-grid{grid-template-columns:1fr 1fr;grid-auto-rows:160px;}
+    .course-content{padding:30px 26px;}
+    .course-meta{gap:22px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="brand" onclick="showScreen('home')">
+    <img src="images/logo.png" alt="Lalibela Heritage Culinary Academy logo" />
+    <div class="brand-text">
+      <span class="b1">Lalibela Heritage</span>
+      <span class="b2">Culinary Academy</span>
+    </div>
+  </div>
+
+  <ul class="nav-links" id="navLinks">
+    <li><button data-screen="home" class="active" onclick="showScreen('home')">Home</button></li>
+    <li><button data-screen="about" onclick="showScreen('about')">About</button></li>
+    <li><button data-screen="courses" onclick="showScreen('courses')">Courses</button></li>
+    <li><button data-screen="dishes" onclick="showScreen('dishes')">Signature Dishes</button></li>
+    <li><button data-screen="gallery" onclick="showScreen('gallery')">Gallery</button></li>
+    <li><button data-screen="freelancing" onclick="showScreen('freelancing')">Chef Freelancing</button></li>
+    <li><button data-screen="contact" onclick="showScreen('contact')">Contact</button></li>
+  </ul>
+
+  <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="overlay" id="overlay" onclick="toggleMobileMenu()"></div>
+<div class="mobile-menu" id="mobileMenu">
+  <button data-screen="home" class="active" onclick="showScreen('home')">Home</button>
+  <button data-screen="about" onclick="showScreen('about')">About</button>
+  <button data-screen="courses" onclick="showScreen('courses')">Courses</button>
+  <button data-screen="dishes" onclick="showScreen('dishes')">Signature Dishes</button>
+  <button data-screen="gallery" onclick="showScreen('gallery')">Gallery</button>
+  <button data-screen="freelancing" onclick="showScreen('freelancing')">Chef Freelancing</button>
+  <button data-screen="contact" onclick="showScreen('contact')">Contact</button>
+</div>
+
+<div class="screen-wrap">
+
+  <!-- HOME -->
+  <section class="screen active" id="home">
+    <div class="hero">
+      <div class="hero-inner">
+        <div class="divider"><div class="bar"></div><div class="diamond"></div><span class="eyebrow">Lalibela, Ethiopia</span></div>
+        <h1>Where heritage<br>becomes <em>craft.</em></h1>
+        <p>A professional culinary academy rooted in Ethiopian tradition, training chefs in the techniques, discipline, and artistry of world-class cuisine.</p>
+        <a class="btn-gold" href="https://t.me/LalibelaCulinaryAcademy_bot" target="_blank" rel="noopener">
+          Register Now <span class="arrow">&rarr;</span>
+        </a>
+        <div class="hero-stats">
+          <div class="stat"><div class="num">12</div><div class="lbl">Years Teaching</div></div>
+          <div class="stat"><div class="num">300+</div><div class="lbl">Chefs Trained</div></div>
+          <div class="stat"><div class="num">1</div><div class="lbl">Heritage, One Standard</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="screen" id="about">
+    <div class="container">
+      <div class="section-head">
+        <div class="divider"><div class="bar"></div><div class="diamond"></div><span class="eyebrow">About the Academy</span></div>
+        <h2>Trained on tradition,<br>built for the modern kitchen.</h2>
+        <p class="lead">Lalibela Heritage Culinary Academy was founded to preserve and elevate Ethiopian heritage cooking, while equipping students with the professional standards demanded by today's kitchens.</p>
+      </div>
+
+      <div class="about-body">
+        <div class="about-img">
+          <img src="images/chef-mountain.png" alt="Academy chef overlooking the Ethiopian highlands">
+          <div class="frame-tag">Lalibela Highlands, Amhara Region</div>
+        </div>
+        <div class="about-text">
+          <p>Named for the rock-hewn churches of Lalibela, the academy treats cooking as an inherited craft, one carried forward through precision, patience, and respect for ingredients native to this land.</p>
+          <p>Every student trains under working chefs, learning heritage Ethiopian technique alongside the structure and discipline of international culinary practice. The result is a chef who can run a professional kitchen anywhere, without losing the flavor of where they come from.</p>
+
+          <div class="about-pillars">
+            <div class="pillar">
+              <div class="pillar-num">Heritage</div>
+              <h4>Rooted Technique</h4>
+              <p>Traditional Ethiopian methods taught at their source, by chefs who practice them daily.</p>
+            </div>
+            <div class="pillar">
+              <div class="pillar-num">Standard</div>
+              <h4>Professional Discipline</h4>
+              <p>Kitchen-floor training built around real service pace, hygiene, and precision.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COURSES -->
+  <section class="screen" id="courses">
+    <div class="container">
+      <div class="section-head">
+        <div class="divider"><div class="bar"></div><div class="diamond"></div><span class="eyebrow">Programs</span></div>
+        <h2>Culinary Training</h2>
+        <p class="lead">A structured, hands-on program focused entirely on the craft of food, taught by professional chefs from foundation through finished plate.</p>
+      </div>
+
+      <div class="courses-body">
+        <div class="course-card">
+          <div class="course-media">
+            <span class="course-badge">Core Program</span>
+          </div>
+          <div class="course-content">
+            <div class="course-eyebrow">Full Culinary Training</div>
+            <h3>Professional Cooking Foundations</h3>
+            <p class="desc">A complete training path covering knife technique, heat control, sauce work, and plating, built around Ethiopian heritage dishes and core international cuisine.</p>
+
+            <div class="course-meta">
+              <div class="meta-item">
+                <div class="meta-lbl">Duration</div>
+                <div class="meta-val">12 Weeks</div>
+              </div>
+              <div class="meta-item">
+                <div class="meta-lbl">Format</div>
+                <div class="meta-val">In-Kitchen</div>
+              </div>
+              <div class="meta-item">
+                <div class="meta-lbl">Level</div>
+                <div class="meta-val">Beginner to Pro</div>
+              </div>
+            </div>
+
+            <ul class="course-list">
+              <li><span class="dot"></span>Knife skills and kitchen fundamentals</li>
+              <li><span class="dot"></span>Heritage Ethiopian dishes and spice craft</li>
+              <li><span class="dot"></span>Sauces, braises, and protein technique</li>
+              <li><span class="dot"></span>Modern plating and presentation</li>
+              <li><span class="dot"></span>Working kitchen practice and service pace</li>
+            </ul>
+
+            <a class="btn-gold" href="https://t.me/LalibelaCulinaryAcademy_bot" target="_blank" rel="noopener">
+              Register Now <span class="arrow">&rarr;</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="curriculum">
+        <div class="curriculum-head">
+          <div class="divider"><div class="bar"></div><div class="diamond"></div><span class="eyebrow">Middle Level TVET &middot; Occupation: Food Preparation</span></div>
+          <h3>Full Curriculum Breakdown</h3>
+          <p>The complete Year One module structure taught at the academy, covering main culinary modules, supportive modules, and common courses required for certification.</p>
+        </div>
+
+        <div class="curriculum-group">
+          <div class="curriculum-group-title">Main Modules</div>
+          <div class="module-grid">
+            <div class="module-card">
+              <div class="m-name">Vegetable &amp; Soup Preparation</div>
+              <div class="m-hours">2 Months &middot; 267 Training Hours</div>
+              <p class="m-desc">Covers the theory and hands-on practice of preparing vegetables and soups, including in-school training, project work, and a supervised internship component to build real kitchen speed and consistency.</p>
+              <a class="module-enroll" href="https://t.me/LalibelaCulinaryAcademy_bot" target="_blank" rel="noopener">Enroll Now <span class="arrow">&rarr;</span></a>
+            </div>
+            <div class="module-card">
+              <div class="m-name">Cold Side Dishes Preparation</div>
+              <div class="m-hours">2 Months &middot; Theory &amp; Practical</div>
+              <p class="m-desc">Trains students in preparing cold side dishes through structured theory sessions and practical kitchen work, with project assignments and internship placement to reinforce technique.</p>
+              <a class="module-enroll" href="https://t.me/LalibelaCulinaryAcademy_bot" target="_blank" rel="noopener">Enroll Now <span class="arrow">&rarr;</span></a>
+            </div>
+            <div class="module-card">
+              <div class="m-name">Egg &amp; Farinaceous Dishes Preparation</div>
+              <div class="m-hours">2 Months &middot; 168 Training Hours</div>
+              <p class="m-desc">Focuses on egg-based and farinaceous (starch and dough-based) dishes, combining classroom theory with in-school practical training, project work, and internship experience.</p>
+              <a class="module-enroll" href="https://t.me/LalibelaCulinaryAcademy_bot" target="_blank" rel="noopener">Enroll Now <span class="arrow">&rarr;</span></a>
+            </div>
+            <div class="module-card">
+              <div class="m-name">Fish &amp; Sea Food Dishes Preparation</div>
+              <div class="m-hours">2 Months &middot; Theory &amp; Practical</div>
+              <p class="m-desc">Introduces the preparation of fish and seafood dishes, covering theory fundamentals alongside practical in-school training, project work, and internship application.</p>
+              <a class="module-enroll" href="https://t.me/LalibelaCulinaryAcademy_bot" target="_blank" rel="noopener">Enroll Now <span class="arrow">&rarr;</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="curriculum-group">
+          <div class="curriculum-group-title">Supportive Modules</div>
+          <div class="module-grid">
+            <div class="module-card">
+              <div class="m-name">Kitchen Organization</div>
+              <div class="m-hours">2 Months &middot; 64 Training Hours</div>
+              <p class="m-desc">Teaches how a professional kitchen is structured and run, covering workflow, station roles, and the coordination needed to keep service moving efficiently.</p>
+              <a class="module-enroll" href="https://t.me/LalibelaCulinaryAcademy_bot" target="_blank" rel="noopener">Enroll Now <span class="arrow">&rarr;</span></a>
+            </div>
+            <div class="module-card">
+              <div class="m-name">Kitchen Equipment &amp; Tools</div>
+              <div class="m-hours">2 Months &middot; 32 Training Hours</div>
+              <p class="m-desc">Builds working knowledge of kitchen equipment and tools, covering correct use, care, and maintenance for safe and efficient daily operation.</p>
+              <a class="module-enroll" href="https://t.me/LalibelaCulinaryAcademy_bot" target="_blank" rel="noopener">Enroll Now <span class="arrow">&rarr;</span></a>
+            </div>
+            <div class="module-card">
+              <div class="m-name">Sanitation &amp; Safety</div>
+              <div class="m-hours">2 Months &middot; 32 Training Hours</div>
+              <p class="m-desc">Covers food hygiene, sanitation practices, and kitchen safety standards required to maintain a clean, compliant, and accident-free working kitchen.</p>
+              <a class="module-enroll" href="https://t.me/LalibelaCulinaryAcademy_bot" target="_blank" rel="noopener">Enroll Now <span class="arrow">&rarr;</span></a>
+            </div>
+            <div class="module-card">
+              <div class="m-name">Perspective in Culinary Science</div>
+              <div class="m-hours">2 Months &middot; 32 Training Hours</div>
+              <p class="m-desc">Introduces the scientific principles behind cooking, giving students a foundational understanding of how heat, ingredients, and technique interact.</p>
+              <a class="module-enroll" href="https://t.me/LalibelaCulinaryAcademy_bot" target="_blank" rel="noopener">Enroll Now <span class="arrow">&rarr;</span></a>
+            </div>
+            <div class="module-card">
+              <div class="m-name">Applied Science I</div>
+              <div class="m-hours">2 Months &middot; 32 Training Hours</div>
+              <p class="m-desc">Applies core science concepts to food preparation, strengthening students' understanding of the processes behind everyday cooking methods.</p>
+              <a class="module-enroll" href="https://t.me/LalibelaCulinaryAcademy_bot" target="_blank" rel="noopener">Enroll Now <span class="arrow">&rarr;</span></a>
+            </div>
+            <div class="module-card">
+              <div class="m-name">Work Ethics</div>
+              <div class="m-hours">2 Months &middot; 25 Training Hours</div>
+              <p class="m-desc">Develops the professional conduct, discipline, and teamwork expected of a working chef in a fast-paced, service-driven kitchen environment.</p>
+              <a class="module-enroll" href="https://t.me/LalibelaCulinaryAcademy_bot" target="_blank" rel="noopener">Enroll Now <span class="arrow">&rarr;</span></a>
+            </div>
+            <div class="module-card">
+              <div class="m-name">Culinary French</div>
+              <div class="m-hours">2 Months &middot; 96 Training Hours</div>
+              <p class="m-desc">Introduces the classic culinary French terminology used throughout professional kitchens worldwide, from technique names to menu vocabulary.</p>
+              <a class="module-enroll" href="https://t.me/LalibelaCulinaryAcademy_bot" target="_blank" rel="noopener">Enroll Now <span class="arrow">&rarr;</span></a>
+            </div>
+            <div class="module-card">
+              <div class="m-name">Food &amp; Beverage Service</div>
+              <div class="m-hours">2 Months &middot; 32 Training Hours</div>
+              <p class="m-desc">Covers front-of-house service standards and food and beverage presentation, giving students a well-rounded view of the guest experience.</p>
+              <a class="module-enroll" href="https://t.me/LalibelaCulinaryAcademy_bot" target="_blank" rel="noopener">Enroll Now <span class="arrow">&rarr;</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="curriculum-group">
+          <div class="curriculum-group-title">Common Courses</div>
+          <div class="module-grid">
+            <div class="module-card">
+              <div class="m-name">Mathematics</div>
+              <div class="m-hours">2 Months &middot; 75 Training Hours</div>
+              <p class="m-desc">Builds the practical math skills used daily in a kitchen, including measurement, ratios, costing, and recipe scaling.</p>
+              <a class="module-enroll" href="https://t.me/LalibelaCulinaryAcademy_bot" target="_blank" rel="noopener">Enroll Now <span class="arrow">&rarr;</span></a>
+            </div>
+            <div class="module-card">
+              <div class="m-name">English</div>
+              <div class="m-hours">2 Months &middot; 75 Training Hours</div>
+              <p class="m-desc">Strengthens spoken and written English for professional kitchen communication, documentation, and guest interaction.</p>
+              <a class="module-enroll" href="https://t.me/LalibelaCulinaryAcademy_bot" target="_blank" rel="noopener">Enroll Now <span class="arrow">&rarr;</span></a>
+            </div>
+            <div class="module-card">
+              <div class="m-name">Civic Education</div>
+              <div class="m-hours">2 Months &middot; 50 Training Hours</div>
+              <p class="m-desc">Covers civic responsibility and workplace ethics, preparing students to operate professionally within their community and industry.</p>
+              <a class="module-enroll" href="https://t.me/LalibelaCulinaryAcademy_bot" target="_blank" rel="noopener">Enroll Now <span class="arrow">&rarr;</span></a>
+            </div>
+            <div class="module-card">
+              <div class="m-name">Information Technology (IT)</div>
+              <div class="m-hours">2 Months &middot; 80 Training Hours</div>
+              <p class="m-desc">Builds core computer literacy, giving students the digital skills needed for modern kitchen administration and communication.</p>
+              <a class="module-enroll" href="https://t.me/LalibelaCulinaryAcademy_bot" target="_blank" rel="noopener">Enroll Now <span class="arrow">&rarr;</span></a>
+            </div>
+            <div class="module-card">
+              <div class="m-name">Entrepreneurship</div>
+              <div class="m-hours">2 Months &middot; 80 Training Hours</div>
+              <p class="m-desc">Introduces the business fundamentals behind running a food operation, from planning and costing to launching a culinary venture.</p>
+              <a class="module-enroll" href="https://t.me/LalibelaCulinaryAcademy_bot" target="_blank" rel="noopener">Enroll Now <span class="arrow">&rarr;</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SIGNATURE DISHES -->
+  <section class="screen" id="dishes">
+    <div class="container">
+      <div class="section-head">
+        <div class="divider"><div class="bar"></div><div class="diamond"></div><span class="eyebrow">From the Kitchen</span></div>
+        <h2>Signature Dishes</h2>
+        <p class="lead">A sample of the technique and plating standard taught at the academy.</p>
+      </div>
+
+      <div class="dishes-body">
+        <div class="dish-grid">
+          <div class="dish-card">
+            <div class="dish-img-wrap"><img src="images/dish-beef-risotto.png" alt="Braised beef short rib with barley risotto"></div>
+            <div class="dish-info">
+              <div class="dish-eyebrow">Mains</div>
+              <h4>Braised Short Rib, Barley Risotto</h4>
+              <p>Slow-braised beef finished in its own reduction, served over barley risotto with fresh peas.</p>
+            </div>
+          </div>
+          <div class="dish-card">
+            <div class="dish-img-wrap"><img src="images/dish-toast.png" alt="Glazed chicken toast with pickled vegetables"></div>
+            <div class="dish-info">
+              <div class="dish-eyebrow">Starters</div>
+              <h4>Glazed Chicken Toast</h4>
+              <p>Charred sourdough, whipped curd, glazed chicken, and quick-pickled radish and apple.</p>
+            </div>
+          </div>
+          <div class="dish-card">
+            <div class="dish-img-wrap"><img src="images/dish-ribs.png" alt="Spiced glazed ribs"></div>
+            <div class="dish-info">
+              <div class="dish-eyebrow">Mains</div>
+              <h4>Heritage Spiced Ribs</h4>
+              <p>Ribs rubbed in Ethiopian spice blend, slow-roasted and finished with a dark honey glaze.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section class="screen" id="gallery">
+    <div class="container">
+      <div class="section-head">
+        <div class="divider"><div class="bar"></div><div class="diamond"></div><span class="eyebrow">Inside the Academy</span></div>
+        <h2>Gallery</h2>
+        <p class="lead">Our chefs, our kitchens, and the food that comes out of them.</p>
+      </div>
+
+      <div class="gallery-body">
+        <div class="gallery-grid">
+          <div class="g-item g-tall"><img src="images/chef-portrait.png" alt="Academy chef portrait"></div>
+          <div class="g-item"><img src="images/chef-mountain.png" alt="Chef overlooking the highlands"></div>
+          <div class="g-item"><img src="images/dish-beef-risotto.png" alt="Braised beef short rib with barley risotto"></div>
+          <div class="g-item g-tall"><img src="images/dish-ribs.png" alt="Spiced glazed ribs"></div>
+          <div class="g-item"><img src="images/dish-toast.png" alt="Glazed chicken toast"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHEF FREELANCING -->
+  <section class="screen" id="freelancing">
+    <div class="container">
+      <div class="section-head">
+        <div class="divider"><div class="bar"></div><div class="diamond"></div><span class="eyebrow">Private &amp; Event Service</span></div>
+        <h2>Chef Freelancing</h2>
+        <p class="lead">Bring an academy-trained chef directly to your table. From intimate dinners to large celebrations, our graduates deliver restaurant-caliber cooking wherever you are.</p>
+      </div>
+
+      <div class="freelance-body">
+        <div class="freelance-card">
+          <div class="freelance-media">
+            <div class="freelance-badge">On-Demand Chefs</div>
+          </div>
+          <div class="freelance-content">
+            <div class="fr-eyebrow">Hire a Professional</div>
+            <h3>Restaurant-Quality Cooking, Delivered to You</h3>
+            <p class="desc">Our freelancing service connects you with accomplished chefs trained at Lalibela Heritage Culinary Academy, available for private dinners, corporate functions, weddings, and special occasions. Every chef brings the same discipline, technique, and hospitality standard taught in our kitchens directly into yours.</p>
+            <ul class="freelance-list">
+              <li><span class="dot"></span>Private in-home dining and celebrations</li>
+              <li><span class="dot"></span>Corporate events and executive functions</li>
+              <li><span class="dot"></span>Weddings and large-scale catering</li>
+              <li><span class="dot"></span>Custom menus rooted in Ethiopian and international cuisine</li>
+              <li><span class="dot"></span>Fully vetted, academy-certified culinary professionals</li>
+            </ul>
+            <a class="btn-gold" href="https://t.me/LalibelaCulinaryAcademy_bot" target="_blank" rel="noopener">
+              Order a Chef <span class="arrow">&rarr;</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="screen" id="contact">
+    <div class="container">
+      <div class="section-head">
+        <div class="divider"><div class="bar"></div><div class="diamond"></div><span class="eyebrow">Get in Touch</span></div>
+        <h2>Contact the Academy</h2>
+        <p class="lead">Reach out to learn more about enrollment, schedules, or visiting the academy in Lalibela.</p>
+      </div>
+
+      <div class="contact-body">
+        <div class="contact-card">
+          <div class="contact-item">
+            <div class="contact-icon">&#9742;</div>
+            <div>
+              <div class="c-label">Phone</div>
+              <div class="c-value">+251 917 146 075</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">&#9993;</div>
+            <div>
+              <div class="c-label">Email</div>
+              <div class="c-value">Sisaybirara15@gmail.com</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">&#9737;</div>
+            <div>
+              <div class="c-label">Location</div>
+              <div class="c-value">Lalibela, Amhara Region, Ethiopia</div>
+            </div>
+          </div>
+          <a class="btn-gold" style="align-self:flex-start;margin-top:8px;" href="https://t.me/LalibelaCulinaryAcademy_bot" target="_blank" rel="noopener">
+            Register Now <span class="arrow">&rarr;</span>
+          </a>
+        </div>
+
+        <div class="contact-map">
+          <div class="map-icon">&#9737;</div>
+          <h4>Lalibela, Amhara Region</h4>
+          <p>Visit the academy in the heart of Ethiopia's cultural heritage, near the historic rock-hewn churches.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2026 Lalibela Heritage Culinary Academy <span class="gold-dot">&middot;</span> Tradition <span class="gold-dot">&middot;</span> Taste <span class="gold-dot">&middot;</span> Excellence</p>
+  </footer>
+
+</div>
+
+<script>
+  function showScreen(id){
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const target = document.getElementById(id);
+    target.classList.add('active');
+    document.getElementById('home').parentElement.parentElement.querySelector('.screen-wrap');
+    document.querySelector('.screen-wrap').scrollTop = 0;
+
+    document.querySelectorAll('.nav-links button, .mobile-menu button').forEach(btn=>{
+      btn.classList.toggle('active', btn.dataset.screen === id);
+    });
+
+    closeMobileMenu();
+  }
+
+  function toggleMobileMenu(){
+    document.getElementById('mobileMenu').classList.toggle('open');
+    document.getElementById('overlay').classList.toggle('open');
+    document.getElementById('hamburger').classList.toggle('open');
+  }
+  function closeMobileMenu(){
+    document.getElementById('mobileMenu').classList.remove('open');
+    document.getElementById('overlay').classList.remove('open');
+    document.getElementById('hamburger').classList.remove('open');
+  }
+</script>
+
+</body>
+</html>
